@@ -1,89 +1,88 @@
-# Course Markdown API
+# Mini-LMS Quiz API
 
-An Express-based API for serving modular course content written in Markdown files. Courses are organized into modules, and each module contains multiple topics.
+A backend API designed to help students prepare for upcoming tests and exams. The application is structured into various courses, each containing quizzes to support effective learning and assessment.
 
-## 📁 Directory Structure
+## 📁 Project Structure
 
 ```
 courses/
-├── course1/
-│   ├── module-1/
-│   │   ├── intro.md
-│   │   ├── loops.md
-│   │   └── variables.md
-│   └── module-2/
-│       ├── functions.md
-│       └── scope.md
-├── course2/
-│   └── module-1/
-│       └── basics.md
+├── mathematics/
+│   ├── quiz-1.json
+│   └── quiz-2.json
+├── physics/
+│   └── quiz-1.json
+└── chemistry/
+    └── quiz-1.json
 ```
 
-Each `.md` file inside a module represents a **topic**. The API reads and serves these as HTML.
+Each `.json` file represents a quiz for a specific course. The API reads these files and serves quiz data to the frontend.
 
 ---
 
-## 🚀 Setup
+## 🚀 Getting Started
 
-```bash
-# Install dependencies
-npm install
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/mini-lms-backend.git
+   cd mini-lms-backend
+   ```
 
-# Ensure marked is correctly imported
-npm install marked
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-# Start server
-node index.js
-```
+3. **Run the backend server:**
+   ```bash
+   python app.py
+   ```
 
 ---
 
 ## 🌐 API Endpoints
 
-### 1. **List Topics in a Module**
+### 1. List Quizzes for a Course
 
-* **URL**: `/api/courses/:courseName/module/:moduleName/topics`
+- **Endpoint:** `/api/courses/<courseName>/quizzes`
+- **Method:** `GET`
+- **Description:** Returns a list of available quizzes for the specified course.
 
-* **Method**: `GET`
+**Example Request:**
+```
+GET /api/courses/mathematics/quizzes
+```
 
-* **Description**: Returns an array of topic names in the specified module.
-
-* **Example**:
-
-  ```
-  GET /api/courses/course1/module/module-1/topics
-  ```
-
-* **Response**:
-
+**Sample Response:**
 ```json
 {
-  "topics": ["intro", "loops", "variables"]
+  "quizzes": ["quiz-1", "quiz-2"]
 }
 ```
 
 ---
 
-### 2. **Get Content of a Specific Topic**
+### 2. Get Quiz Questions
 
-* **URL**: `/api/courses/:courseName/module/:moduleName/topic/:topicName`
+- **Endpoint:** `/api/courses/<courseName>/quiz/<quizName>`
+- **Method:** `GET`
+- **Description:** Returns the questions and options for the specified quiz.
 
-* **Method**: `GET`
+**Example Request:**
+```
+GET /api/courses/mathematics/quiz/quiz-1
+```
 
-* **Description**: Returns the parsed HTML content of a specific markdown file.
-
-* **Example**:
-
-  ```
-  GET /api/courses/course1/module/module-1/topic/loops
-  ```
-
-* **Response**:
-
+**Sample Response:**
 ```json
 {
-  "topic": "loops",
-  "content": "<h1>Loops in Programming</h1><p>...</p>"
+  "quiz": "quiz-1",
+  "questions": [
+    {
+      "question": "What is 2 + 2?",
+      "options": ["3", "4", "5", "6"],
+      "answer": "4"
+    }
+  ]
 }
 ```
 
@@ -91,23 +90,21 @@ node index.js
 
 ## ⚠️ Notes
 
-* The `.md` files must be located inside:
-  `courses/<courseName>/<moduleName>/`
-* File names must match the `topicName` param (excluding `.md`).
-* Make sure the markdown files are UTF-8 encoded and saved properly.
+- Quiz files must be located in: `courses/<courseName>/`
+- File names should match the `quizName` parameter (without `.json`).
+- Ensure all JSON files are UTF-8 encoded.
 
 ---
 
-## 🛆 Dependencies
+## 🖥️ Frontend
 
-* `express`
-* `marked`
-* `fs` (Node.js built-in)
-* `path` (Node.js built-in)
+The frontend for this project is available at:  
+[https://github.com/Fikkii/Mini-LMS-Frontend](https://github.com/Fikkii/Mini-LMS-Frontend)
+
+For a complete setup, please install and run both the backend and frontend.
 
 ---
 
 ## 📄 License
 
 MIT
-
